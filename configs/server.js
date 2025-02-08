@@ -7,12 +7,14 @@ import morgan from "morgan"
 import { dbConecction } from './mongo.js'
 import authRoutes from "../src/auth/auth.routes.js"
 import authRoutesT from "../src/auth/auth.routes-T.js"
+import apiLimiter from '../src/middlewares/validar-cant-peticiones.js'
 
 const middlewares = (app) =>{
     app.use(express.json())
     app.use(cors())
     app.use(helmet())
     app.use(morgan("dev"))
+    app.use(apiLimiter)
 }
 
 const routes = (app) =>{
