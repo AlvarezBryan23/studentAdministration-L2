@@ -5,10 +5,10 @@ import cors from "cors"
 import helmet from "helmet"
 import morgan from "morgan"
 import { dbConecction } from './mongo.js'
-import studentRoutes from "../student/student.routes.js"
-import teacherRoutes from "../teacher/teacher.routes.js"
+import authRoutes from "../src/auth/auth.routes.js"
+import authRoutesT from "../src/auth/auth.routes-T.js"
 
-const configs = (app) =>{
+const middlewares = (app) =>{
     app.use(express.json())
     app.use(cors())
     app.use(helmet())
@@ -16,8 +16,8 @@ const configs = (app) =>{
 }
 
 const routes = (app) =>{
-    app.use("/studentAdministration/v1/students", studentRoutes)
-    app.use("/studentAdministration/v1/teachers", teacherRoutes)
+    app.use("/studentAdministration/v1/auth", authRoutes)
+    app.use("/studentAdministration/v1/authT", authRoutesT)
 }
 
 const conectarDB = async () =>{
@@ -31,7 +31,7 @@ const conectarDB = async () =>{
 export const initServer = () =>{
     const app = express()
     try{
-        configs(app)
+        middlewares(app)
         conectarDB()
         routes(app)
         app.listen(process.env.PORT)
