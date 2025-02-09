@@ -16,6 +16,11 @@ const studentSchema = Schema({
         required: true,
         unique: true
     },
+    password:{
+        type: String,
+        required: true,
+        minLength: 8
+    },
     email:{
         type:String,
         required: [true, "Email is required"],
