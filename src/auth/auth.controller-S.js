@@ -1,5 +1,6 @@
 import Student from "../student/student.model.js"
 import { hash, verify } from "argon2"
+import { generateJWT } from "../helpers/generate-jwt.js"
 
 export const register = async (req, res) =>{
     try{
@@ -46,10 +47,11 @@ export const login = async(req, res) =>{
             })
         }
 
+        const token = await generateJWT(student.id)
         return res.status(200).json({
             message: "Inicio de sesión exitoso",
             userDetails:{
-                student 
+                token: token
             }
         })
 
