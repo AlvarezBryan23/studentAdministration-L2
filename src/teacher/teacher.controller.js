@@ -1,13 +1,28 @@
 import Teacher from "./teacher.model.js"
 
-export const createTeacher = async(req, res) =>{
-    const {name, surname, username, email, assignCourses, phone, role} = req.body
-    const newTeacher = new Teacher({name, surname, username, email, assignCourses, phone, role})
+export const getTeacherById = async(req, res) =>{
+    try{
+        const {cm} = req.params
+        const teacher = await Teacher.findById(cm)
 
-    await newTeacher.save()
+        if(!teacher){
+            return  res.status(404).json({
+                success: false,
+                message: "El maestro no existe",
+                error: err.message
+            })
+        }
 
-    res.status(201).json({
-        message: "Teacher created successfully",
-        data: newTeacher
-    })
+        return res.status(201).json({
+            success: true,
+            teacher
+        })
+        
+    }catch(err){
+        return res.status(500).json({
+            success: false,
+            message: "Error al obtener al Maestro",
+            errror: err.message
+        })
+    }
 }

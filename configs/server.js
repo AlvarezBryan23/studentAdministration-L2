@@ -7,6 +7,8 @@ import morgan from "morgan"
 import { dbConecction } from './mongo.js'
 import authRoutes from "../src/auth/auth.routes.js"
 import authRoutesT from "../src/auth/auth.routes-T.js"
+import studentRoutes from "../src/student/student.routes.js"
+import teacherRoutes from "../src/teacher/teacher.routes.js"
 import apiLimiter from '../src/middlewares/validar-cant-peticiones.js'
 
 const middlewares = (app) =>{
@@ -21,6 +23,9 @@ const middlewares = (app) =>{
 const routes = (app) =>{
     app.use("/studentAdministration/v1/auth", authRoutes)
     app.use("/studentAdministration/v1/authT", authRoutesT)
+
+    app.use("/studentAdministration/v1/student", studentRoutes)
+    app.use("/studentAdministration/v1/teacher", teacherRoutes)
 }
 
 const conectarDB = async () =>{

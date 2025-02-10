@@ -1,7 +1,10 @@
 import { Router } from "express";
+import { getStudentByIdValidator } from "../middlewares/check-validator.js";
+import { getStudentById } from "./student.controller.js";
     
 
 const router = Router()
 
-router.post("/register", createStudent)
+router.get("/findStudent/:uid", getStudentByIdValidator, getStudentById)
+
 export default router
