@@ -52,3 +52,23 @@ export const getTeacher = async(req, res) =>{
         })
     }
 }
+
+export const deleteTeacher = async(req, res) => {
+    try{    
+        const { cm } = req.params
+
+        const teacher = await Teacher.findByIdAndUpdate(cm, {status: false}, {new: true})
+
+        return res.status(200).json({
+            success: true,
+            message: "El maestro fue eliminado",
+            teacher
+        })
+    }catch(err){
+        return res.status(500).json({
+            success: false,
+            message: "Error al eliminar al Maestro",
+            error: err.message
+        })
+    }
+}

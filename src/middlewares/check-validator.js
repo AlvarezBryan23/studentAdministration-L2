@@ -2,6 +2,7 @@ import { body, param } from "express-validator";
 import { existeEmail, existeUsername, studentExists } from "../helpers/db-validators.js";
 import { existeEmailT, existeUsernameT, teacherExists } from "../helpers/db-validators.js";
 import {validarCampos} from "./validar-campos.js"
+import { handleErrors} from "./hadle-errors.js"
 
 export const registerValidator = [
     body("name", "El nombre es obligatorio").not().isEmpty(),
@@ -56,4 +57,18 @@ export const getTeacherByIdValidator = [
     param("cm").isMongoId().withMessage("No es un CM válido"),
     param("cm").custom(teacherExists),
     validarCampos
+]
+
+export const deleteStudentValidator = [
+    param("uid").isMongoId().withMessage("No es un id válido"),
+    param("uid").custom(studentExists),
+    validarCampos,
+    handleErrors
+]
+
+export const deleteTeacherValidator = [
+    param("cm").isMongoId().withMessage("No es un CM válido"),
+    param("cm").custom(teacherExists),
+    validarCampos,
+    handleErrors
 ]

@@ -52,3 +52,23 @@ export const getStudent = async(req, res) =>{
         })
     }
 }
+
+export const deleteStudent = async(req, res) => {
+    try{    
+        const { uid } = req.params
+
+        const student = await Student.findByIdAndUpdate(uid, {status: false}, {new: true})
+
+        return res.status(200).json({
+            success: true,
+            message: "Estudiante eliminado",
+            student
+        })
+    }catch(err){
+        return res.status(500).json({
+            success: false,
+            message: "Error al eliminar el estudiante",
+            error: err.message
+        })
+    }
+}
