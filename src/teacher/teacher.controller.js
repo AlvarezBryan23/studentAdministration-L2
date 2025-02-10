@@ -26,3 +26,29 @@ export const getTeacherById = async(req, res) =>{
         })
     }
 }
+
+export const getTeacher = async(req, res) =>{
+    try{
+        const {limits = 5, from = 0} = req.query
+        const query = {status: true}
+
+        const [total, teachers] = await Promise.all([
+            Teacher.countDocuments(query),
+            Teacher.find(query)
+                   .skip(Number(from))
+                   .limit(Number(limits))
+        ])
+
+        return res.status(200).json({
+            success: true,
+            total,
+            teachers
+        })
+    }catch(err){
+        return res.status(500).json({
+            success: false,
+            message: "Error al obtener al maestro",
+            error: err.message
+        })
+    }
+}

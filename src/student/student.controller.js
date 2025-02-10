@@ -26,3 +26,29 @@ export const getStudentById = async(req, res) =>{
         })
     }
 }
+
+export const getStudent = async(req, res) =>{
+    try{
+        const {limits = 5, from = 0} = req.query
+        const query = {status: true}
+
+        const [total, students ] = await Promise.all([
+            Student.countDocuments(query),
+            Student.find(query)
+                   .skip(Number(from))
+                   .limit(Number(limits))
+        ])
+
+        return res.status(200).json({
+            success: true,
+            total,
+            students
+        })
+    }catch(err){
+        return res.status(500).json({
+            success: false,
+            message: "Error al listar a los estudiantes",
+            error: err.message
+        })
+    }
+}
